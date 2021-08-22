@@ -53,6 +53,7 @@
 
         public static function update( $id, $data_arr = []) {
             if( empty( $data_arr) || ! is_array( $data_arr)) return 'missing data';
+            if( empty( $id) || intval( $id) <= 0) return 'bad id';
 
             // Accepting arrays only
             if( empty( $data_arr) || ! is_array( $data_arr)) return 'missing data';
