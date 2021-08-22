@@ -26,6 +26,7 @@ DB::backupQuery();
 try {
     $newly_created_row_id = DB::execute_and_return_row_id("INSERT INTO ". static::$table ." (". $columns .") VALUES (". $values .")");
     if( $newly_created_row_id) DB::commitQuery();
+    return $newly_created_row_id;
 
 } catch( \Exception $e) {
     DB::rollbackQuery();
