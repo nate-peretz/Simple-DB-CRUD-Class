@@ -33,6 +33,7 @@
         }
 
         public static function getRows( $data_arr = []) {
+            if( empty( $data_arr) || ! is_array( $data_arr)) return 'missing data';
             $where  = ""; $limit = "";
 
             // Paging
@@ -46,11 +47,13 @@
         }
 
         public static function getRowById( $id) {
-            if( empty( $id) || $id <= 0) return 'bad id';
+            if( empty( $id) || intval( $id) <= 0) return 'bad id';
             return DB::rawQuery("SELECT * FROM ". static::$table ." WHERE id = $id LIMIT 1");
         }
 
         public static function update( $id, $data_arr = []) {
+            if( empty( $data_arr) || ! is_array( $data_arr)) return 'missing data';
+
             // Accepting arrays only
             if( empty( $data_arr) || ! is_array( $data_arr)) return 'missing data';
             // Last update time
@@ -75,7 +78,7 @@
         }
 
         public static function delete( $id) {
-            if( empty( $id) || $id <= 0) return 'bad id';
+            if( empty( $id) || intval( $id) <= 0) return 'bad id';
             return DB::execute("DELETE FROM ". static::$table ." WHERE id = $id");
         }
     }
