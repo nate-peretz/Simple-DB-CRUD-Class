@@ -18,3 +18,17 @@ if( $db_connection !== 'connected') {
     echo '<pre>'; var_dump( $db_connection); die();
 }
 ```
+
+Use backupQuery() before queries and rollbackQuery() on errors. After a successful query you can commit it by using commitQuery().
+```php
+DB::backupQuery();
+
+try {
+    DB::execute_and_return_row_id("INSERT INTO ". static::$table ." (". $columns .") VALUES (". $values .")");
+    DB::commitQuery();
+
+} catch( \Exception $e) {
+    DB::rollbackQuery();
+    return $e->getMessage();
+}
+```
