@@ -1,8 +1,11 @@
 <?php
+    /**
+     * Extend this class to your Models
+     * All models must have property $table = '<table name>';
+     */
     namespace Models;
 
     use \DB\DB;
-
     abstract class CRUD extends DB {
         public static function create( $data_arr = []) {
             if( empty( $data_arr) || ! is_array( $data_arr)) return 'missing data';
@@ -74,15 +77,5 @@
         public static function delete( $id) {
             if( empty( $id) || $id <= 0) return 'bad id';
             return DB::execute("DELETE FROM ". static::$table ." WHERE id = $id");
-        }
-
-        public static function selectDistinct( $column) {
-            return DB::rawQuery("SELECT DISTINCT `$column` FROM ". static::$table ." GROUP BY `$column`");
-        }
-
-        public static function countPages( $results_per_page) {
-            $total_results = DB::rawQuery("SELECT COUNT(id) AS total FROM ". static::$table)[0]['total'];
-            $pages = $total_results / $results_per_page;
-            return ( is_float( $pages)) ? intval( $pages) : intval( $pages) -1;
         }
     }

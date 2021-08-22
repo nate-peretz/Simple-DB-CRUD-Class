@@ -42,15 +42,6 @@
             }
         }
 
-        public static function rawQuery($query) {
-            try {
-                $query = self::$pdo->query($query);
-                return $query->fetchAll();
-            } catch (\PDOException $e) {
-                return new \PDOException($e->getMessage(), (int)$e->getCode());
-            }
-        }
-
         public static function buildWhere($data) {
             $output = '';
     
@@ -67,6 +58,15 @@
             return $output;
         }
 
+        public static function rawQuery($query) {
+            try {
+                $query = self::$pdo->query($query);
+                return $query->fetchAll();
+            } catch (\PDOException $e) {
+                return new \PDOException($e->getMessage(), (int)$e->getCode());
+            }
+        }
+
         public static function execute($query) {
             return self::$pdo->prepare($query)->execute();
         }
@@ -77,6 +77,9 @@
             return $last_id;
         }
 
+        /**
+         * Backup, Rollback, Commit
+        */
         public static function backupQuery() {
             self::$pdo->beginTransaction();
         }
