@@ -24,8 +24,8 @@ Use backupQuery() before queries and rollbackQuery() on errors. After a successf
 DB::backupQuery();
 
 try {
-    DB::execute_and_return_row_id("INSERT INTO ". static::$table ." (". $columns .") VALUES (". $values .")");
-    DB::commitQuery();
+    $newly_created_row_id = DB::execute_and_return_row_id("INSERT INTO ". static::$table ." (". $columns .") VALUES (". $values .")");
+    if( $newly_created_row_id) DB::commitQuery();
 
 } catch( \Exception $e) {
     DB::rollbackQuery();
